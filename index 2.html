@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>The Evergreen Family</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600&family=Young+Serif&display=swap">
+<style>
+:root{--bg:#eef0fb;--bg2:#d9defa;--ink:#1b2152;--mut:#5a628f;--line:#6a74d0;--pn:#fff;--bd:#cdd3f2;--gl:.3;--dot:transparent;--acc:#2b34a0;--accink:#fff;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0d1131;--bg2:#1c2263;--ink:#eef0ff;--mut:#a3abdc;--line:#7b87ee;--pn:#171c4c;--bd:#343c8c;--gl:.65;--dot:#ffffff66;--acc:#ffd36b;--accink:#2a1d00}}
+:root[data-theme="dark"]{--bg:#0d1131;--bg2:#1c2263;--ink:#eef0ff;--mut:#a3abdc;--line:#7b87ee;--pn:#171c4c;--bd:#343c8c;--gl:.65;--dot:#ffffff66;--acc:#ffd36b;--accink:#2a1d00}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;min-height:100%;color:var(--ink);font:400 16px/1.4 "DM Sans",system-ui,sans-serif;
+background:radial-gradient(ellipse at 50% -10%,var(--bg2),transparent 65%),radial-gradient(1.5px 1.5px at 30px 40px,var(--dot),transparent),radial-gradient(1px 1px at 110px 95px,var(--dot),transparent),var(--bg);
+background-size:auto,150px 130px,170px 150px,auto;background-repeat:no-repeat,repeat,repeat,no-repeat}
+header{max-width:900px;margin:0 auto;padding:22px 18px 8px}
+h1{margin:0;font:400 clamp(2rem,7vw,3.3rem)/1.05 "Young Serif",Georgia,serif;outline:none}
+h1[contenteditable="true"]{border-bottom:2px dashed var(--line)}
+#stats,#hint{color:var(--mut);margin:8px 0 0}
+.bar{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+input,textarea{width:100%;box-sizing:border-box;background:var(--bg);color:var(--ink);border:1px solid var(--bd);border-radius:10px;padding:9px 11px;font:inherit}
+.bar input{flex:1 1 200px;width:auto;border-radius:999px;padding:9px 16px}
+.btn{border:1px solid var(--bd);background:var(--pn);color:var(--ink);border-radius:999px;padding:9px 16px;font:inherit;cursor:pointer}
+.pri{background:var(--acc);color:var(--accink);border-color:var(--acc);font-weight:600}
+button:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid hsl(45 95% 58%);outline-offset:2px}
+#stage{overflow:auto;padding:14px 0 320px;-webkit-overflow-scrolling:touch}
+#tree{position:relative;margin:0 auto}
+#tree svg{position:absolute;inset:0;pointer-events:none}
+svg path,svg line{fill:none;stroke:var(--line);stroke-width:2;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;animation:draw 1s ease forwards}
+svg .lk{stroke:hsl(45 95% 58%);stroke-width:3}
+svg .sp{fill:hsl(45 95% 58%);font-size:20px}
+@keyframes draw{to{stroke-dashoffset:0}}
+.nd{position:absolute;width:124px;height:118px;display:flex;flex-direction:column;align-items:center;gap:5px;background:none;border:0;padding:0;color:var(--ink);font:inherit;cursor:pointer;animation:rise .7s backwards}
+@keyframes rise{from{opacity:0;transform:scale(.4)}}
+.av{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;font-size:30px;background:color-mix(in srgb,hsl(var(--g) 80% 60%) 24%,var(--pn));border:2px solid hsl(var(--g) 85% 62%);box-shadow:0 0 0 5px hsl(var(--g) 85% 62% / .13),0 0 22px hsl(var(--g) 90% 60% / var(--gl));transition:transform .2s}
+.nd:hover .av{transform:scale(1.08)}
+.nd b{font-size:14px;line-height:1.2;max-width:118px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.nd small{color:var(--mut);font-size:12px}
+.nd.on .av{outline:3px solid var(--ink);outline-offset:4px}
+.nd.hit .av{transform:scale(1.18)}
+.nd.dim{opacity:.2}
+#panel{position:fixed;left:0;right:0;bottom:0;max-width:640px;margin:0 auto;max-height:58vh;overflow:auto;box-sizing:border-box;background:var(--pn);border:1px solid var(--bd);border-bottom:0;border-radius:22px 22px 0 0;box-shadow:0 -10px 34px rgba(0,0,0,.25);padding:16px 18px calc(18px + env(safe-area-inset-bottom,0px));transform:translateY(112%);transition:transform .3s;z-index:20}
+#panel.open{transform:none}
+.who{display:flex;align-items:center;gap:12px}.who div{flex:1}
+.who h3{margin:0;font:400 22px/1.2 "Young Serif",Georgia,serif}
+.who small{color:var(--mut)}
+.who .av{width:48px;height:48px;font-size:24px;flex:none}
+.x{background:none;border:0;color:var(--mut);font-size:20px;cursor:pointer;padding:6px}
+.story{line-height:1.6;max-width:60ch;margin:12px 0 0}
+label{display:grid;gap:4px;font-size:13px;color:var(--mut);margin-top:10px}
+.grid{display:grid;grid-template-columns:72px 1fr;gap:10px}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+@media(prefers-reduced-motion:reduce){.nd,svg path,svg line{animation:none}svg path,svg line{stroke-dashoffset:0}#panel{transition:none}}
+</style>
+</head>
+<body>
+<header>
+  <h1 id="ttl"></h1>
+  <p id="stats"></p>
+  <div class="bar">
+    <input id="q" type="search" placeholder="Find a family member" aria-label="Find a family member">
+    <button class="btn pri" id="edt">Edit</button>
+    <button class="btn" id="dat">Data</button>
+    <button class="btn" id="zo" aria-label="Zoom out">−</button>
+    <button class="btn" id="zi" aria-label="Zoom in">+</button>
+  </div>
+  <p id="hint" hidden>Tap a person to change their details or add relatives. Changes stay in this browser only.</p>
+</header>
+<main id="stage"><div id="tree"></div></main>
+<aside id="panel" aria-live="polite"></aside>
+<script>
+const KEY='family-tree:v1',CW=124,CH=118,GX=20,GY=64,CG=44,PAD=30,HUE=[45,170,340,265,205];
+const $=s=>document.querySelector(s);
+const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const P=(n,y,e,t)=>({n,y,e,t:t||''});
+const N=(p,s,c)=>({p,s:s||null,c:c||[]});
+const DEF=()=>({title:'The Evergreen Family',root:N(
+  P('Eleanor Evergreen','1938 – 2020','🌻','Planted the first apple tree and told the best bedtime stories.'),
+  P('Thomas Evergreen','1935 – 2012','⛵','Sailor, carpenter and keeper of terrible puns.'),[
+  N(P('Margaret Evergreen','b. 1962','🎨','Painter who moved to the coast and never looked back.'),
+    P('Daniel Okoye','b. 1960','🎻','Cellist who plays at every family gathering.'),[
+    N(P('Amara Okoye','b. 1990','🚀','Aerospace engineer who still climbs the apple tree.')),
+    N(P('Leo Okoye','b. 1994','🎧','Sound designer and family DJ.'),P('Mia Chen','b. 1995','📚','Librarian and champion of board games.'),
+      [N(P('Nova Okoye','b. 2022','🌱','The newest leaf on the tree.'))])]),
+  N(P('James Evergreen','b. 1965','🍳','Chef, famous for Sunday pancakes.'),P('Sofia Rossi','b. 1967','🌍','Travel writer with a passport full of stamps.'),[
+    N(P('Ella Evergreen','b. 1996','🦋','Marine biologist who adopts every stray.')),
+    N(P('Max Evergreen','b. 1999','⚽','Goalkeeper who narrates his own saves.')),
+    N(P('Zoe Evergreen','b. 2003','🎭','Theatre student and professional storyteller.'))]),
+  N(P('Rosa Evergreen','b. 1969','📖','Teacher and keeper of the family recipes.'),null,[
+    N(P('Theo Evergreen','b. 2001','🎸','Plays guitar badly and proudly.'))])
+])});
+let S,sel=null,edit=false,pm='',q='',cd=0,uid=0,md=0,M={},z=innerWidth<640?.75:1;
+const tree=$('#tree'),panel=$('#panel');
+const dump=()=>JSON.stringify(S,(k,v)=>k[0]==='_'?undefined:v);
+const save=()=>{try{localStorage.setItem(KEY,dump())}catch(e){}};
+function load(){try{const r=localStorage.getItem(KEY);if(r){const o=JSON.parse(r);if(o&&o.root&&o.root.p&&Array.isArray(o.root.c))return o}}catch(e){}return DEF()}
+const walk=(n,f,par)=>{f(n,par);n.c.forEach(c=>walk(c,f,n))};
+const parentOf=n=>{let r;walk(S.root,(x,p)=>{if(x===n)r=p});return r};
+function fix(){let m=0;walk(S.root,n=>{m=Math.max(m,n.id||0)});walk(S.root,n=>{if(!n.id)n.id=++m});uid=m}
+const uw=n=>n.s?CW*2+CG:CW;
+function meas(n){n.c.forEach(meas);n._k=n.c.reduce((a,c)=>a+c._w,0)+GX*Math.max(0,n.c.length-1);n._w=Math.max(uw(n),n._k)}
+function place(n,x,d){n._cx=x+n._w/2;n._d=d;n._y=PAD+d*(CH+GY);md=Math.max(md,d);let cx=x+(n._w-n._k)/2;n.c.forEach(c=>{place(c,cx,d+1);cx+=c._w+GX})}
+const nd=(n,w,l,dl)=>{const p=n[w];return `<button class="nd" data-id="${n.id}" data-w="${w}" style="left:${l}px;top:${n._y}px;--g:${HUE[n._d%5]};animation-delay:${dl}s"><span class="av">${esc(p.e)}</span><b>${esc(p.n)}</b><small>${esc(p.y)}</small></button>`};
+function draw(){
+  fix();meas(S.root);md=0;place(S.root,PAD,0);M={};
+  let h='',pa='',cnt=0;
+  walk(S.root,n=>{
+    M[n.id]=n;cnt+=n.s?2:1;
+    const l=n._cx-(n.s?CW+CG/2:CW/2),cy=n._y+32,dl=n._d*.22,y1=n._y+CH-4;
+    h+=nd(n,'p',l,dl);
+    if(n.s){
+      h+=nd(n,'s',l+CW+CG,dl);
+      pa+=`<line x1="${l+CW/2+34}" y1="${cy}" x2="${l+CW+CG+CW/2-34}" y2="${cy}" class="lk" pathLength="1" style="animation-delay:${dl+.3}s"/><text x="${n._cx}" y="${cy+7}" text-anchor="middle" class="sp">✦</text>`;
+    }
+    n.c.forEach(c=>{
+      const sy=n.s?cy+12:y1,ey=c.s?c._y+20:c._y,m=(y1+ey)/2;
+      pa+=`<path d="M${n._cx} ${sy}V${y1}C${n._cx} ${m},${c._cx} ${m},${c._cx} ${ey}" pathLength="1" style="animation-delay:${dl+.35}s"/>`;
+    });
+  });
+  const W=S.root._w+PAD*2,H=PAD*2+(md+1)*(CH+GY)-GY;
+  tree.style.width=W+'px';tree.style.height=H+'px';
+  tree.innerHTML=`<svg width="${W}" height="${H}">${pa}</svg>`+h;
+  $('#stats').textContent=`${cnt} family members across ${md+1} generations. Tap a star to read their story.`;
+  mark();
+}
+function mark(){
+  tree.querySelectorAll('.nd').forEach(b=>{
+    const w=b.dataset.w,m=q&&M[b.dataset.id][w].n.toLowerCase().includes(q);
+    b.classList.toggle('hit',!!m);b.classList.toggle('dim',!!q&&!m);
+    b.classList.toggle('on',!!sel&&sel.id==b.dataset.id&&sel.w===w);
+  });
+}
+function panelHTML(){
+  if(pm==='data')return `<div class="who"><div><h3>Family data</h3></div><button class="x" data-a="close" aria-label="Close">✕</button></div><p class="story">Copy this text to back up your tree, or paste a saved tree and tap Import.</p><textarea id="dt" rows="6">${esc(dump())}</textarea><div class="row"><button class="btn pri" data-a="imp">Import</button><button class="btn" data-a="rst">Reset to sample</button></div>`;
+  if(!sel)return '';
+  const n=M[sel.id],p=n[sel.w];
+  const head=`<div class="who"><span class="av" style="--g:${HUE[n._d%5]}">${esc(p.e)}</span><div><h3>${esc(p.n)}</h3><small>${esc(p.y)}</small></div><button class="x" data-a="close" aria-label="Close">✕</button></div>`;
+  if(!edit)return head+`<p class="story">${esc(p.t)||'No story added yet.'}</p>`;
+  return head+`<div class="grid"><label>Icon<input data-f="e" value="${esc(p.e)}"></label><label>Name<input data-f="n" value="${esc(p.n)}"></label></div><label>Years<input data-f="y" value="${esc(p.y)}" placeholder="1950 – 2020"></label><label>Story<textarea data-f="t" rows="3">${esc(p.t)}</textarea></label><div class="row"><button class="btn pri" data-a="addc">Add child</button>${!n.s&&sel.w==='p'?'<button class="btn" data-a="adds">Add partner</button>':''}${n===S.root&&sel.w==='p'?'':'<button class="btn" data-a="del">Remove</button>'}</div>`;
+}
+function renderPanel(){panel.innerHTML=panelHTML();panel.classList.toggle('open',!!(pm||sel))}
+function focusSel(){const el=tree.querySelector('.nd.on');if(el)el.scrollIntoView({block:'nearest',inline:'center',behavior:'smooth'})}
+tree.onclick=e=>{const b=e.target.closest('.nd');if(!b)return;sel={id:+b.dataset.id,w:b.dataset.w};pm='';cd=0;mark();renderPanel()};
+panel.onclick=e=>{
+  const a=e.target.closest('[data-a]');if(!a)return;
+  const k=a.dataset.a,n=sel&&M[sel.id];
+  if(k==='close'){sel=null;pm='';cd=0;mark()}
+  else if(k==='addc'){const c=N(P('New relative','','🌿',''));c.id=++uid;n.c.push(c);sel={id:c.id,w:'p'};save();draw();focusSel()}
+  else if(k==='adds'){n.s=P('New partner','','💛','');sel={id:n.id,w:'s'};save();draw();focusSel()}
+  else if(k==='del'){
+    if(!cd){cd=1;a.textContent='Tap again to confirm';return}
+    cd=0;if(sel.w==='s')n.s=null;else{const pr=parentOf(n);pr.c=pr.c.filter(x=>x!==n)}
+    sel=null;save();draw();
+  }
+  else if(k==='imp'){
+    try{const o=JSON.parse($('#dt').value);if(!o.root||!o.root.p||!Array.isArray(o.root.c))throw 0;
+      S=o;sel=null;pm='';save();$('#ttl').textContent=S.title||'Our family';draw()}
+    catch(x){$('#dt').style.outline='3px solid hsl(0 85% 60%)';return}
+  }
+  else if(k==='rst'){S=DEF();sel=null;pm='';save();$('#ttl').textContent=S.title;draw()}
+  renderPanel();
+};
+panel.oninput=e=>{
+  const f=e.target.dataset.f;if(!f||!sel)return;
+  const p=M[sel.id][sel.w];p[f]=e.target.value;save();
+  const b=tree.querySelector(`.nd[data-id="${sel.id}"][data-w="${sel.w}"]`);
+  if(b){b.querySelector('.av').textContent=p.e;b.querySelector('b').textContent=p.n;b.querySelector('small').textContent=p.y}
+  const h=panel.querySelector('h3');if(h)h.textContent=p.n;
+  mark();
+};
+$('#q').oninput=e=>{q=e.target.value.trim().toLowerCase();mark()};
+$('#edt').onclick=()=>{
+  edit=!edit;$('#edt').textContent=edit?'Done':'Edit';
+  $('#ttl').contentEditable=edit?'true':'false';$('#hint').hidden=!edit;pm='';cd=0;renderPanel();
+};
+$('#dat').onclick=()=>{pm='data';sel=null;mark();renderPanel()};
+const setZ=v=>{z=Math.min(1.5,Math.max(.4,v));tree.style.zoom=z};
+$('#zi').onclick=()=>setZ(z+.15);
+$('#zo').onclick=()=>setZ(z-.15);
+$('#ttl').oninput=e=>{S.title=e.target.textContent;document.title=S.title||'Family tree';save()};
+S=load();
+$('#ttl').textContent=S.title;document.title=S.title||'Family tree';
+setZ(z);draw();renderPanel();
+{const s=$('#stage');s.scrollLeft=(s.scrollWidth-s.clientWidth)/2}
+</script>
+</body>
+</html>
